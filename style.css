@@ -1,0 +1,121 @@
+body {
+  background: #1b1b1b;
+  color: #bfffe3;
+  font-family: "Courier New", monospace;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+#startText {
+  font-size: clamp(1.5rem, 6vw, 2.5rem);
+  margin-top: 20px;
+  cursor: pointer;
+  animation: flash 1s infinite;
+  text-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc;
+}
+
+@keyframes flash {
+  0%,
+  50%,
+  100% {
+    color: #bfffe3;
+  }
+  25%,
+  75% {
+    color: #ff3b30;
+  }
+}
+
+#scoreboard {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  text-align: right;
+  font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+  line-height: 1.4;
+}
+
+#playerName {
+  color: #ffcc00;
+  text-shadow: 0 0 5px #ffcc00;
+  margin: 0;
+}
+
+#currentLevel,
+#bestScore {
+  margin: 2px 0;
+}
+
+#game {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: 80px auto 20px auto;
+  width: 90%;
+  max-width: 400px;
+  min-width: 320px;
+  min-height: 220px;
+  background: white;
+  padding: 15px;
+  border-radius: 15px;
+  box-sizing: border-box;
+}
+
+.btn {
+  flex: 1 1 calc(50% - 10px);
+  aspect-ratio: 1 / 1;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: clamp(0.9rem, 4vw, 1.2rem);
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+  transition: 0.2s;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+  min-width: 120px;
+  max-width: 180px;
+}
+
+.green {
+  background: #4cd964;
+}
+.red {
+  background: #ff3b30;
+}
+.yellow {
+  background: #ffcc00;
+  color: #222;
+}
+.blue {
+  background: #007aff;
+}
+
+.btn.active {
+  box-shadow: 0 0 30px white, 0 0 50px white;
+  transform: scale(1.05);
+}
+
+#statusText {
+  margin-top: 15px;
+  font-size: clamp(1rem, 3.5vw, 1.3rem);
+  word-wrap: break-word;
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  min-height: 2em;
+}
+
+@media (max-width: 350px) {
+  #game {
+    gap: 8px;
+  }
+  .btn {
+    min-width: 100px;
+    max-width: 150px;
+  }
+}
