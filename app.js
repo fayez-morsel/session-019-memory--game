@@ -84,3 +84,28 @@ function gameOver() {
   waitingForStart = true;
   startText.textContent = "▶ Start";
 }
+
+function handleClick(e) {
+  if (!canClick) return;
+  const btn = e.target;
+  const index = parseInt(btn.dataset.btn);
+
+  playSound(index);
+  flashButton(btn);
+  playerSequence.push(index);
+
+  if (
+    playerSequence[playerSequence.length - 1] !==
+    sequence[playerSequence.length - 1]
+  ) {
+    gameOver();
+    return;
+  }
+
+  if (playerSequence.length === sequence.length) {
+    canClick = false;
+    waitingForStart = true;
+    statusText.textContent = "✅ Good! Click ▶ Next Level";
+    startText.textContent = "▶ Next Level";
+  }
+}
