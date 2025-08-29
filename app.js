@@ -19,3 +19,12 @@ const sounds = [
   new Audio("blue.mp3"),
 ];
 const wrongSound = new Audio("wrong.mp3");
+
+let sequence = [];
+let playerSequence = [];
+let level = 0;
+let bestScore = localStorage.getItem("bestScore") || 0;
+let canClick = false;
+let waitingForStart = true;
+
+bestScoreText.textContent = "Best: " + bestScore;
