@@ -28,3 +28,13 @@ let canClick = false;
 let waitingForStart = true;
 
 bestScoreText.textContent = "Best: " + bestScore;
+
+function playSound(index) {
+  sounds[index].currentTime = 0;
+  sounds[index].play();
+}
+
+function playSoundWrong() {
+  wrongSound.currentTime = 0;
+  wrongSound.play();
+}
