@@ -1,18 +1,20 @@
-// seletcing DOM elements
+// Selecting DOM elements
 const startText = document.getElementById("startText");
 const statusText = document.getElementById("statusText");
 const currentLevelText = document.getElementById("currentLevel");
 const bestScoreText = document.getElementById("bestScore");
 const playerNameText = document.getElementById("playerName");
 const buttons = document.querySelectorAll(".btn");
-// player Name setup
+
+// Player Name setup
 let playerName = localStorage.getItem("playerName");
 if (!playerName) {
   playerName = prompt("Enter your name:") || "Player";
   localStorage.setItem("playerName", playerName);
 }
 playerNameText.textContent = "👾 " + playerName;
-//Game sounds
+
+// Game sounds
 const sounds = [
   new Audio("green.mp3"),
   new Audio("red.mp3"),
@@ -20,16 +22,18 @@ const sounds = [
   new Audio("blue.mp3"),
 ];
 const wrongSound = new Audio("wrong.mp3");
-//Game state variables
+
+// Game state variables
 let sequence = [];
 let playerSequence = [];
 let level = 0;
 let bestScore = localStorage.getItem("bestScore") || 0;
 let canClick = false;
-let waitingForStart = true;
+let waitingForNextLevel = false; 
 
 bestScoreText.textContent = "Best: " + bestScore;
-//Utility function
+
+// Utility functions
 function playSound(index) {
   sounds[index].currentTime = 0;
   sounds[index].play();
@@ -44,8 +48,8 @@ function flashButton(btn) {
   btn.classList.add("active");
   setTimeout(() => btn.classList.remove("active"), 400);
 }
-//Game logic
-//play sequence(computer turn)
+
+// Game logic
 function playSequence() {
   canClick = false;
   startText.textContent = "⏳ Playing...";
@@ -68,27 +72,31 @@ function nextLevel() {
   currentLevelText.textContent = "Level: " + level;
   sequence.push(Math.floor(Math.random() * 4));
   playerSequence = [];
-  waitingForStart = true;
+  canClick = false;
+  waitingForNextLevel = false; 
 }
 
 function gameOver() {
   playSoundWrong();
-  statusText.textContent = "❌ You Lost! Press Start";
+  statusText.textContent = "❌ You Lost! Press ▶ Start to retry";
+  startText.textContent = "▶ Start";
+  waitingForNextLevel = false;
+  sequence = [];
+  level = 0;
+  currentLevelText.textContent = "Level: 0";
+  canClick = false;
+
   if (level > bestScore) {
     bestScore = level;
     localStorage.setItem("bestScore", bestScore);
     bestScoreText.textContent = "Best: " + bestScore;
   }
-  sequence = [];
-  level = 0;
-  currentLevelText.textContent = "Level: 0";
-  canClick = false;
-  waitingForStart = true;
-  startText.textContent = "▶ Start";
 }
-//HandleClick (player turn)
+
+// Handle player click
 function handleClick(e) {
   if (!canClick) return;
+
   const btn = e.target;
   const index = parseInt(btn.dataset.btn);
 
@@ -106,20 +114,21 @@ function handleClick(e) {
 
   if (playerSequence.length === sequence.length) {
     canClick = false;
-    waitingForStart = true;
+    waitingForNextLevel = true;
     statusText.textContent = "✅ Good! Click ▶ Next Level";
     startText.textContent = "▶ Next Level";
   }
 }
-//EventListener
+
+// Event listeners
 buttons.forEach((btn) => btn.addEventListener("click", handleClick));
 
 startText.addEventListener("click", () => {
-  if (waitingForStart) {
-    if (level === 0 && sequence.length === 0) {
-      statusText.textContent = "";
-    }
+  if (waitingForNextLevel || (level === 0 && sequence.length === 0)) {
     nextLevel();
-    setTimeout(playSequence, 500);
+    setTimeout(() => {
+      playSequence();
+      waitingForNextLevel = false;
+    }, 500);
   }
 });
