@@ -68,3 +68,19 @@ function nextLevel() {
   playerSequence = [];
   waitingForStart = true;
 }
+
+function gameOver() {
+  playSoundWrong();
+  statusText.textContent = "❌ You Lost! Press Start";
+  if (level > bestScore) {
+    bestScore = level;
+    localStorage.setItem("bestScore", bestScore);
+    bestScoreText.textContent = "Best: " + bestScore;
+  }
+  sequence = [];
+  level = 0;
+  currentLevelText.textContent = "Level: 0";
+  canClick = false;
+  waitingForStart = true;
+  startText.textContent = "▶ Start";
+}
