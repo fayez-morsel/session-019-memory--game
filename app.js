@@ -48,19 +48,17 @@ function playSequence() {
   canClick = false;
   startText.textContent = "⏳ Playing...";
   statusText.textContent = "Watch the sequence!";
-  let i = 0;
-  const interval = setInterval(() => {
-    const idx = sequence[i];
-    const btn = document.querySelector(`.btn[data-btn='${idx}']`);
+  const idx = sequence[sequence.length - 1];
+  const btn = document.querySelector(`.btn[data-btn='${idx}']`);
+
+  setTimeout(() => {
     flashButton(btn);
     playSound(idx);
-    i++;
-    if (i >= sequence.length) {
-      clearInterval(interval);
+    setTimeout(() => {
       canClick = true;
       statusText.textContent = "Your turn!";
-    }
-  }, 700);
+    }, 500);
+  }, 500);
 }
 
 function nextLevel() {
