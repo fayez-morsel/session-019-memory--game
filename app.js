@@ -38,3 +38,25 @@ function playSoundWrong() {
   wrongSound.currentTime = 0;
   wrongSound.play();
 }
+
+function flashButton(btn) {
+  btn.classList.add("active");
+  setTimeout(() => btn.classList.remove("active"), 400);
+}
+
+function playSequence() {
+  canClick = false;
+  startText.textContent = "⏳ Playing...";
+  statusText.textContent = "Watch the sequence!";
+  const idx = sequence[sequence.length - 1];
+  const btn = document.querySelector(`.btn[data-btn='${idx}']`);
+
+  setTimeout(() => {
+    flashButton(btn);
+    playSound(idx);
+    setTimeout(() => {
+      canClick = true;
+      statusText.textContent = "Your turn!";
+    }, 500);
+  }, 500);
+}
