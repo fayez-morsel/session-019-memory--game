@@ -1,17 +1,18 @@
+// seletcing DOM elements
 const startText = document.getElementById("startText");
 const statusText = document.getElementById("statusText");
 const currentLevelText = document.getElementById("currentLevel");
 const bestScoreText = document.getElementById("bestScore");
 const playerNameText = document.getElementById("playerName");
 const buttons = document.querySelectorAll(".btn");
-
+// player Name setup
 let playerName = localStorage.getItem("playerName");
 if (!playerName) {
   playerName = prompt("Enter your name:") || "Player";
   localStorage.setItem("playerName", playerName);
 }
 playerNameText.textContent = "👾 " + playerName;
-
+//Game sounds
 const sounds = [
   new Audio("green.mp3"),
   new Audio("red.mp3"),
@@ -19,7 +20,7 @@ const sounds = [
   new Audio("blue.mp3"),
 ];
 const wrongSound = new Audio("wrong.mp3");
-
+//Game state variables
 let sequence = [];
 let playerSequence = [];
 let level = 0;
@@ -28,7 +29,7 @@ let canClick = false;
 let waitingForStart = true;
 
 bestScoreText.textContent = "Best: " + bestScore;
-
+//Utility function
 function playSound(index) {
   sounds[index].currentTime = 0;
   sounds[index].play();
@@ -43,7 +44,8 @@ function flashButton(btn) {
   btn.classList.add("active");
   setTimeout(() => btn.classList.remove("active"), 400);
 }
-
+//Game logic
+//play sequence(computer turn)
 function playSequence() {
   canClick = false;
   startText.textContent = "⏳ Playing...";
@@ -84,7 +86,7 @@ function gameOver() {
   waitingForStart = true;
   startText.textContent = "▶ Start";
 }
-
+//HandleClick (player turn)
 function handleClick(e) {
   if (!canClick) return;
   const btn = e.target;
@@ -109,7 +111,7 @@ function handleClick(e) {
     startText.textContent = "▶ Next Level";
   }
 }
-
+//EventListener
 buttons.forEach((btn) => btn.addEventListener("click", handleClick));
 
 startText.addEventListener("click", () => {
