@@ -60,3 +60,11 @@ function playSequence() {
     }, 500);
   }, 500);
 }
+
+function nextLevel() {
+  level++;
+  currentLevelText.textContent = "Level: " + level;
+  sequence.push(Math.floor(Math.random() * 4));
+  playerSequence = [];
+  waitingForStart = true;
+}
