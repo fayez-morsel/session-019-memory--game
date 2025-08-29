@@ -11,3 +11,11 @@ if (!playerName) {
   localStorage.setItem("playerName", playerName);
 }
 playerNameText.textContent = "👾 " + playerName;
+
+const sounds = [
+  new Audio("green.mp3"),
+  new Audio("red.mp3"),
+  new Audio("yellow.mp3"),
+  new Audio("blue.mp3"),
+];
+const wrongSound = new Audio("wrong.mp3");
