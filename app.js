@@ -109,3 +109,15 @@ function handleClick(e) {
     startText.textContent = "▶ Next Level";
   }
 }
+
+buttons.forEach((btn) => btn.addEventListener("click", handleClick));
+
+startText.addEventListener("click", () => {
+  if (waitingForStart) {
+    if (level === 0 && sequence.length === 0) {
+      statusText.textContent = "";
+    }
+    nextLevel();
+    setTimeout(playSequence, 500);
+  }
+});
