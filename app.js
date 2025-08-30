@@ -22,6 +22,9 @@ const sounds = [
   new Audio("blue.mp3"),
 ];
 const wrongSound = new Audio("wrong.mp3");
+const bgMusic = new Audio("back.mp3");
+bgMusic.loop = true;
+bgMusic.volume = 0.5;
 
 // Game state variables
 let sequence = [];
@@ -29,7 +32,7 @@ let playerSequence = [];
 let level = 0;
 let bestScore = localStorage.getItem("bestScore") || 0;
 let canClick = false;
-let waitingForNextLevel = false; 
+let waitingForNextLevel = false;
 
 bestScoreText.textContent = "Best: " + bestScore;
 
@@ -73,13 +76,15 @@ function nextLevel() {
   sequence.push(Math.floor(Math.random() * 4));
   playerSequence = [];
   canClick = false;
-  waitingForNextLevel = false; 
+  waitingForNextLevel = false;
 }
 
 function gameOver() {
   playSoundWrong();
   statusText.textContent = "❌ You Lost! Press ▶ Start to retry";
   startText.textContent = "▶ Start";
+  // bgMusic.pause();
+  // bgMusic.currentTime = 0; 
   waitingForNextLevel = false;
   sequence = [];
   level = 0;
@@ -125,6 +130,7 @@ buttons.forEach((btn) => btn.addEventListener("click", handleClick));
 
 startText.addEventListener("click", () => {
   if (waitingForNextLevel || (level === 0 && sequence.length === 0)) {
+    bgMusic.play();
     nextLevel();
     setTimeout(() => {
       playSequence();
